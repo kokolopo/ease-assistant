@@ -1,0 +1,12 @@
+[project]
+name = "ease-assistant"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "dotenv>=0.9.9",
+    "fastapi[standard]>=0.120.1",
+    "mindsdb-sdk>=3.4.8",
+    "pydantic>=2.12.3",
+]

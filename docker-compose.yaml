@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  # -----------------------------------------------------
+  # 1. MINDSDB SERVER (Database AI)
+  # -----------------------------------------------------
+  mindsdb:
+    # Menggunakan image resmi MindsDB
+    image: mindsdb/mindsdb:latest
+    container_name: mindsdb_server
+    ports:
+      # Port default MindsDB yang digunakan untuk koneksi API
+      - "47331:47334"
+      - "47332:47335"
+    volumes:
+      # Menyimpan data MindsDB secara persisten agar model dan agent tidak hilang
+      - mindsdb_data:/root/mindsdb
+    environment:
+      MINDSDB_APIS: http,mysql,postgres
+
+  # -----------------------------------------------------
+  # 2. FASTAPI APP (Aplikasi Anda)
+  # -----------------------------------------------------
+  app:
+    # Menggunakan Dockerfile yang sudah Anda buat di direktori saat ini
+    build: .
+    container_name: ease-assistant
+    # app hanya terekspos ke nginx dan tidak langsung ke host
+    # Jika ingin langsung diakses, tambahkan: - "8000:8000"
+    ports:
+      - "1205:1205" # Ekspos port 8000 di jaringan Docker internal
+    depends_on:
+      - mindsdb # Memastikan MindsDB berjalan sebelum aplikasi FastAPI
+    environment:
+      # Ini adalah KUNCI komunikasi: menggunakan nama service MindsDB sebagai host
+      MINDSD_HOST: "http://mindsdb:47334" 
+      # Variabel lain jika diperlukan
+      MINDSD_AGENT: "ease_agent" 
+      
+# Mendefinisikan volume untuk penyimpanan data MindsDB yang persisten
+volumes:
+  mindsdb_data:
