@@ -24,6 +24,7 @@ services:
   app:
     # Menggunakan Dockerfile yang sudah Anda buat di direktori saat ini
     build: .
+    restart: always
     container_name: ease-assistant
     # app hanya terekspos ke nginx dan tidak langsung ke host
     # Jika ingin langsung diakses, tambahkan: - "8000:8000"
