@@ -7,6 +7,9 @@ requires-python = ">=3.13"
 dependencies = [
     "dotenv>=0.9.9",
     "fastapi[standard]>=0.120.1",
+    "langchain-mcp-adapters>=0.1.12",
+    "langchain-openai>=1.0.2",
+    "langgraph>=1.0.2",
     "mindsdb-sdk>=3.4.8",
     "pydantic>=2.12.3",
 ]
